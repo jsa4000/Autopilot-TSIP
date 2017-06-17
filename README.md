@@ -4,8 +4,8 @@ Autopilot-TSIP Packet Parser Simulator
 
 1. Requirements
 
-- MinGW C++ compiler libraries (x64)
-> "-std=c++11" support -pthread (x64-4.8.1-release-posix-sjlj-rev5.7z)
+- GCC or MinGW C++ compiler libraries (x64)
+    > "-std=c++0x" support -pthread (x64-4.8.1-release-posix-sjlj-rev5.7z or x86_64-7.1.0-release-posix-sjlj-rt_v5-rev0)
 - Visual studio Code (with Microsoft C/C++, CMake and Native Debug extensions)
 - Boost libraries. (Compiled using gcc)
 
@@ -56,6 +56,12 @@ Autopilot-TSIP Packet Parser Simulator
     ]
 }
 
+```
+
+  - keybindings.json
+
+```json
+ { "key": "f8",          "command": "workbench.action.tasks.build" }
 ```
 
 2. Autopilot TSIP

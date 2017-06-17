@@ -1,10 +1,10 @@
 # Installing boost libraries for GCC (MinGW) on Windows
 
 ## Folder setup
-1. Extract downloaded boost source, e.g. `C:\MinGW\boost_1_64_0`.
-2. Create a folder for Boost.Build installation, e.g. `C:\MinGW\boost-build`.
-2. Create a folder within for building, i.e. `C:\MinGW\boost_1_64_0\build`.
-3. Create a folder for installation, e.g. `C:\MinGW\boost`.
+1. Extract downloaded boost source, e.g. `C:\MinGW\boost\boost_1_64_0`.
+2. Create a folder for Boost.Build installation, e.g. `C:\MinGW\boost\boost-build`.
+2. Create a folder within for building, i.e. `C:\MinGW\boost\boost_1_64_0\build`.
+3. Create a folder for installation, e.g. `C:\MinGW\boost\boost`.
 
 ## GCC setup
 1. Open Command Prompt.
@@ -12,16 +12,16 @@
 3. If the output contains g++ version number then GCC should be set up properly to run from command line and you can continue.
 
 ## Boost.Build setup
-1. Open Command Prompt and navigate to `C:\MinGW\boost_1_64_0\tools\build`.
+1. Open Command Prompt and navigate to `C:\MinGW\boost\boost_1_64_0\tools\build`.
 2. Run `bootstrap.bat mingw` or `bootstrap.bat gcc`
-3. Run `b2 install --prefix="C:\MinGW\boost-build"`.
-4. Add `C:\MinGW\boost-build\bin` to Windows PATH.
+3. Run `b2 install --prefix="C:\MinGW\boost\boost-build"`.
+4. Add `C:\MinGW\boost\boost-build\bin` to Windows PATH.
 
 ## boost building
-1. Open Command Prompt and navigate to `C:\MinGW\boost_1_64_0`.
+1. Open Command Prompt and navigate to `C:\MinGW\boost\boost_1_64_0`.
 2. Run
 ```
-b2 --build-dir="C:\MinGW\boost_1_64_0\build" --prefix="C:\MinGW\boost" toolset=gcc install
+b2 --build-dir="C:\MinGW\boost\boost_1_64_0\build" --prefix="C:\MinGW\boost\boost" toolset=gcc install
 ```
 
 ## Project setup

@@ -9,7 +9,8 @@
              "-I", "C:/MinGW/boost/boost/include/boost-1_64", 
              "-L", "C:/MinGW/boost/boost/lib", 
              "-o", "bin\\tsip.exe",  
-             "src\\tsip.cpp", "src\\main.cpp"],
+             "src\\tsip.cpp",  "src\\socket.cpp", "src\\main.cpp",
+             "-lws2_32"],
     // Without debugger information
     // "args": ["-o", "bin\\tsip.exe", "src\\main.cpp"],
     "showOutput": "always"
