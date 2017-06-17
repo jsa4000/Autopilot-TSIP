@@ -20,22 +20,25 @@ Autopilot-TSIP Packet Parser Simulator
 
       add_executable(${PROJECT_NAME} ${SOURCE})
 
+  - tasks.json
 
-  - tasks.json 
+```json
 
       {
           "version": "0.1.0",
           "command": "g++",
           "isShellCommand": true,
           // compiles and links with debugger information
-          "args": ["-g", "-o", "hello.exe", "hello.cpp"],
+          "args": ["-g", "-o", "app.exe", "main.cpp"],
           // without debugger information
           // "args": ["-o", "hello.exe", "hello.cpp"],
           "showOutput": "always"
       }
+```
 
-  - launch.json 
-
+  - launch.json
+ 
+```json
       {
           "version": "0.2.0",
           "configurations": [
@@ -54,6 +57,7 @@ Autopilot-TSIP Packet Parser Simulator
           ]
       }
 
+```
 
 2. Autopilot TSIP
 

@@ -2,6 +2,17 @@
 {
     //"cmake.cmakePath": "C:\\MinGW\\cmake\\bin\\cmake.exe",
     "files.associations": {
-        "iosfwd": "cpp"
-    }
+        "iosfwd": "cpp",
+        "xlocale": "cpp",
+        "iterator": "cpp",
+        "iostream": "cpp",
+        "*.ipp": "cpp",
+        "ostream": "cpp",
+        "xiosbase": "cpp",
+        "algorithm": "cpp"
+    },
+    "files.exclude": {
+            ".gitignore": true,
+            "**/bin": true
+            },
 }

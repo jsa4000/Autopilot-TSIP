@@ -5,7 +5,10 @@
     // Compiles and links with default compilation file
     //"args": ["-g", "src\\main.cpp"],
     // Compiles and links with debugger information
-    "args": ["-g", "-o", "bin\\tsip.exe", "src\\main.cpp"],
+    "args": ["-g","-I", "C:/MinGW/boost/boost/include/boost-1_64", 
+                  "-L", "C:/MinGW/boost/boost/lib", 
+                  "-o", "bin\\tsip.exe",  
+                  "src\\tsip.cpp", "src\\main.cpp"],
     // Without debugger information
     // "args": ["-o", "bin\\tsip.exe", "src\\main.cpp"],
     "showOutput": "always"
