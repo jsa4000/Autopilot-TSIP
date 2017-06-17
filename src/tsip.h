@@ -3,11 +3,9 @@
 #define TSIP_H
 
 namespace tsip {
-    
-    void print();
-    
-    void test_boost();
 
+    void test_thread();
+    void test_boost();
 }
 
 #endif

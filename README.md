@@ -4,58 +4,57 @@ Autopilot-TSIP Packet Parser Simulator
 
 1. Requirements
 
-- MinGW and CMake C++ compiler libraries
+- MinGW C++ compiler libraries (x64)
+> "-std=c++11" support -pthread (x64-4.8.1-release-posix-sjlj-rev5.7z)
 - Visual studio Code (with Microsoft C/C++, CMake and Native Debug extensions)
+- Boost libraries. (Compiled using gcc)
+
 
 
 1.1 Configuration
-
-  - CMakeLists.txt
-
-      cmake_minimum_required(VERSION 3.0)
-
-      project(hello-vsc)
-
-      set(SOURCE hello-vsc.cpp)
-
-      add_executable(${PROJECT_NAME} ${SOURCE})
 
   - tasks.json
 
 ```json
 
-      {
-          "version": "0.1.0",
-          "command": "g++",
-          "isShellCommand": true,
-          // compiles and links with debugger information
-          "args": ["-g", "-o", "app.exe", "main.cpp"],
-          // without debugger information
-          // "args": ["-o", "hello.exe", "hello.cpp"],
-          "showOutput": "always"
-      }
+{
+    "version": "0.1.0",
+    "command": "g++",
+    "isShellCommand": true,
+    // Compiles and links with default compilation file
+    //"args": ["-g", "src\\main.cpp"],
+    // Compiles and links with debugger information
+    "args": ["-g", "-std=c++11", "-pthread",
+             "-I", "C:/MinGW/boost/boost/include/boost-1_64", 
+             "-L", "C:/MinGW/boost/boost/lib", 
+             "-o", "bin\\tsip.exe",  
+             "src\\tsip.cpp", "src\\main.cpp"],
+    // Without debugger information
+    // "args": ["-o", "bin\\tsip.exe", "src\\main.cpp"],
+    "showOutput": "always"
+}
 ```
 
   - launch.json
  
 ```json
-      {
-          "version": "0.2.0",
-          "configurations": [
-              {
-                  "name": "C++ Launch (Windows)",
-                  "type": "cppdbg",
-                  "request": "launch",
-                  "program": "${workspaceRoot}/bin/tsip.exe",
-                  "MIMode": "gdb",
-                  "miDebuggerPath": "C:\\MinGw\\bin\\gdb.exe",
-                  "stopAtEntry": false,
-                  "cwd": "${workspaceRoot}",
-                  "externalConsole": false,
-                  "visualizerFile": "${workspaceRoot}/my.natvis"
-              }
-          ]
-      }
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "C++ Launch (Windows)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/bin/tsip.exe",
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\MinGw\\bin\\gdb.exe",
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "externalConsole": false,
+            "visualizerFile": "${workspaceRoot}/my.natvis"
+        }
+    ]
+}
 
 ```
 
