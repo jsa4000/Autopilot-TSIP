@@ -12,8 +12,8 @@ int main(int argc, const char * argv[]) {
     // tsip::test_boost();
     // Test the Socket packages Winsock2
 
-    const char* margv[] = {"localhost","localhost"};
-    tsip_socket::test_socket(2,margv);
+    const char* server_address = "localhost";
+    tsip_socket::test_socket(server_address);
 
     return 0;
 }

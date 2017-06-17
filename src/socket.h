@@ -4,7 +4,8 @@
 
 namespace tsip_socket {
 
-    int test_socket(int argc, const char * argv[]);
+    int test_socket(const char* server_address);
+    int test_server();
 
 }
 
