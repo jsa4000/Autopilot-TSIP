@@ -5,7 +5,8 @@ Autopilot-TSIP Packet Parser Simulator
 ## 1 Requirements
 
 - GCC or MinGW C++ compiler libraries (x64)
-    > "-std=c++0x" support -pthread (x64-4.8.1-release-posix-sjlj-rev5.7z or x86_64-7.1.0-release-posix-sjlj-rt_v5-rev0)
+> GCC current version is x86_64-7.1.0, that supports latest C++ functionality
+> "-std=c++14" support -pthread (x64-4.8.1-release-posix-sjlj-rev5.7z or x86_64-7.1.0-release-posix-sjlj-rt_v5-rev0)
 - Visual studio Code (with Microsoft C/C++, CMake and Native Debug extensions)
 - Boost libraries. (Compiled using gcc)
 
@@ -25,7 +26,8 @@ Autopilot-TSIP Packet Parser Simulator
              "-I", "C:/MinGW/boost/boost/include/boost-1_64", 
              "-L", "C:/MinGW/boost/boost/lib", 
              "-o", "bin\\tsip.exe",  
-             "src\\tsip.cpp", "src\\main.cpp"],
+             "src\\tsip.cpp",  "src\\socket.cpp", "src\\main.cpp",
+             "-lws2_32"],
     // Without debugger information
     // "args": ["-o", "bin\\tsip.exe", "src\\main.cpp"],
     "showOutput": "always"

@@ -1,6 +1,6 @@
 #include <iostream>
-#include "tsip.h"
-#include "socket.h"
+#include "rtos/tsip.h"
+#include "dma/socket.h"
 using namespace std;
 
 int main(int argc, const char * argv[]) {
@@ -29,8 +29,8 @@ int main(int argc, const char * argv[]) {
     // Hz to Seconds. 1/Seconds = Herzios; Seconds = 1/Hz
 
     // Use the function loaded from the tsip header.
-    // tsip::test_thread();
-    // tsip::test_boost();
+    tsip::test_thread();
+    tsip::test_boost();
     // Test the Socket packages Winsock2
 
     const char* server_address = "localhost";
