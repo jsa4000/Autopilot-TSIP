@@ -1,22 +1,17 @@
-#ifndef RTOS_H_
-#define RTOS_H_
+#ifndef _RTOS_H_
+#define _RTOS_H_
 
-class RTOS {
+#include "task.h"
+
+class RTOS : public Task {
     public: 
         RTOS(int timer = 1000);
         ~ RTOS();
 
-        bool start();
-        bool stop();
-        bool is_running();
-
     private:
-
-        // Whether the task is running or not
-        bool _running = false;
-        // Time for the ticks in Milliseconds
-        int _timer = 1000; 
+        //Function to overwrite
+        void _process();
+       
 };
 
-
-#endif
+#endif //_RTOS_H_

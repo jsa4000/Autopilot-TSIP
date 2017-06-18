@@ -1,24 +1,24 @@
+#include <iostream>
+#include <thread>         
+#include <chrono>     
 #include "rtos.h"
 
-RTOS::RTOS(int timer):
-    _timer(timer),_running(false) {
+RTOS::RTOS(int timer)
+    :Task(timer) {
 
 }
 
 RTOS::~RTOS(){
 }
 
-bool RTOS::start(){
-    // Set running as true
-    _running = true;
-}
-bool RTOS::stop(){
-    // Set running as False to Stop the thread
-    _running = false;
-}
+void RTOS::_process(){
 
-bool RTOS::is_running(){
-    return _running;
+   std::cout << "countdown:\n";
+  for (int i=10; i>0; --i) {
+    std::cout << i << std::endl;
+    std::this_thread::sleep_for (std::chrono::seconds(1));
+  }
+  std::cout << "Lift off!\n";
 }
 
 

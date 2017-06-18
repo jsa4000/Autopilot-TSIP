@@ -1,6 +1,6 @@
 
-#ifndef TSIP_H
-#define TSIP_H
+#ifndef _TSIP_H
+#define _TSIP_H
 
 namespace tsip {
 
@@ -8,4 +8,4 @@ namespace tsip {
     void test_boost();
 }
 
-#endif
+#endif //_TSIP_H

@@ -11,11 +11,11 @@ int main(int argc, const char * argv[]) {
     RTOS os = RTOS(1000);
     os.start();
 
-    // WAIT UNTIL THE END OR QUIT
-    while (os.is_running()){
+    // // WAIT UNTIL THE END OR QUIT
+     while (os.is_running()){
         
-        //os.stop()
-    }
+         //os.stop()
+     }
   
     // END THE PROGRAM
     cout << "PROGRAM ENDED" << endl;
