@@ -3,17 +3,20 @@ echo "START"
 
 set c_version="c++14"
 
-echo "COMPILING DMA LIBRARY..."
+echo "COMPILING DRIVERS LIBRARY..."
 
 set include_path="C:/MinGW/boost/boost/include/boost-1_64"
 set lib_path="C:/MinGW/boost/boost/lib"
-set output_file="bin/dma.o"
-set lib_dma_file="bin/dma.a"
-set cpp_files="src/dma/socket.cpp"
+set output_client_file="bin/client.o"
+set output_server_file="bin/server.o"
+set lib_drivers_file="bin/drivers.a"
+set cpp_files="src/drivers/client.cpp"
+set cpp_files2="src/drivers/server.cpp"
 set libs="-lws2_32"
 
-g++ -g -c -std=%c_version% -pthread -I%include_path% -L%lib_path% -o%output_file% %cpp_files% %libs%
-ar rvs %lib_dma_file% %output_file%
+g++ -g -c -std=%c_version% -pthread -I%include_path% -L%lib_path% -o%output_client_file% %cpp_files% %libs%
+g++ -g -c -std=%c_version% -pthread -I%include_path% -L%lib_path% -o%output_server_file% %cpp_files2% %libs%
+ar rvs %lib_drivers_file% %output_client_file% %output_server_file%
 
 echo "COMPILING RTOS LIBRARY..."
 
@@ -43,7 +46,7 @@ set lib_path2="C:/MinGW/boost/boost/lib"
 
 set output_file="bin/tsip.exe"
 set cpp_files="src/main.cpp"
-set libs=%lib_dma_file%
+set libs=%lib_drivers_file%
 set libs2=%lib_rtos_file%
 set libs3="-lws2_32"
 
