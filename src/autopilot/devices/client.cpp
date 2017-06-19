@@ -7,6 +7,7 @@
 #include <iphlpapi.h>
 #include <stdio.h>
 #include <iostream>
+#include <chrono> 
 #include "client.h"
 
  Client::Client(string address, int port):
@@ -42,6 +43,8 @@ bool Client::open() {
     std::stringstream port_str;
     port_str << _port;
 
+    cout << "Connection to: " << _address << " Port: " << port_str.str();
+
     // Resolve the server address and port
     iResult = getaddrinfo(_address.c_str(), port_str.str().c_str(), &hints, &result);
     if ( iResult != 0 ) {
@@ -72,17 +75,16 @@ bool Client::open() {
     }
     // Free memory
     freeaddrinfo(result);
-
     // Get if the connection was succesfull
     if (_socket == INVALID_SOCKET) 
         return false;
 
     // Check if the thread already exist
     if (_thread == NULL) {
-        // Create the new thread
-        _thread = make_shared<thread>(&Client::_connection_loop,this);
         // Set running as true
         _connected = true;
+        // Create the new thread
+        _thread = make_shared<thread>(&Client::_connection_loop,this);
         // return true
     }
 
@@ -108,15 +110,22 @@ bool Client::open() {
     char recvbuf[DEFAULT_BUFLEN];
     int recvbuflen = DEFAULT_BUFLEN;
     int iResult;
+
+     cout << "Connected2" << endl;
     // Receive until the peer closes the connection
     do {
+        cout << "Receiving from Server.." << endl;
         iResult = recv(_socket, recvbuf, recvbuflen, 0);
+        cout << "Received from Server!" << endl;
         if ( iResult > 0 )
             printf("Bytes received: %d\n", iResult);
         else if ( iResult == 0 )
             printf("Connection closed\n");
         else
             printf("recv failed with error: %d\n", WSAGetLastError());
+
+        // Sleep 1 second
+        std::this_thread::sleep_for (std::chrono::seconds(1));
     } while( iResult > 0 && _connected);
 }
 

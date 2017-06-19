@@ -1,11 +1,26 @@
 {
     "version": "0.2.0",
     "configurations": [
+
         {
-            "name":"C++ Launch (Windows)",
+            "name":"Autopilot Client",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceRoot}/bin/tsip.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\MinGw\\bin\\gdb.exe"
+        },
+          
+        {
+            "name":"Station Server",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/bin/station.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}",

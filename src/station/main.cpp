@@ -1,5 +1,5 @@
 #include <iostream>
-#include "server.h"
+#include "server/server.h"
 
 int main(int argc, const char * argv[]) {
     using namespace std;
@@ -8,7 +8,7 @@ int main(int argc, const char * argv[]) {
     cout << "STATION SIMULATOR STARTED" << endl;
 
     //START THE STATIION SIMULATIONSYSTEM (RTOS)
-    Server station = Server(1000);
+    Server station = Server();
     station.start();
 
     // // WAIT UNTIL THE END OR QUIT

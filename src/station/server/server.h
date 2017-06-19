@@ -28,8 +28,10 @@ class Server {
     void _client_loop(SOCKET socket);
     void _server_loop();
     bool _running = false;
-    SOCKET _listen_socket;
+    SOCKET _socket;
     shared_ptr<thread> _thread = NULL;
+
+    shared_ptr<thread> _client_thread = NULL;
 
 };
 

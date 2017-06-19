@@ -4,11 +4,11 @@
 
 #include <sstream>
 #include <windows.h>
-#include <winsock2.h>
 #include <ws2tcpip.h>
 #include <iphlpapi.h>
 #include <stdio.h>
 #include <iostream>
+#include <chrono> 
 #include "server.h"
 
 Server::Server(int port):
@@ -44,7 +44,7 @@ bool Server::stop(){
         // Pause until the thread ends
         _thread->join();
         // Close socket and cleacn the server
-        closesocket(_listen_socket);
+        closesocket(_socket);
         WSACleanup();
     }
     return true;
@@ -54,7 +54,7 @@ void Server::_server_loop()
 {
     WSADATA wsaData;
     int iResult;
-    _listen_socket = INVALID_SOCKET;
+    _socket = INVALID_SOCKET;
 
     struct addrinfo *result = NULL;
     struct addrinfo hints;
@@ -82,8 +82,8 @@ void Server::_server_loop()
     }
 
     // Create a SOCKET for connecting to server
-    _listen_socket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
-    if (_listen_socket == INVALID_SOCKET) {
+    _socket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+    if (_socket == INVALID_SOCKET) {
         printf("socket failed with error: %ld\n", WSAGetLastError());
         freeaddrinfo(result);
         WSACleanup();
@@ -91,11 +91,11 @@ void Server::_server_loop()
     }
 
     // Setup the TCP listening socket
-    iResult = bind( _listen_socket, result->ai_addr, (int)result->ai_addrlen);
+    iResult = bind(_socket, result->ai_addr, (int)result->ai_addrlen);
     if (iResult == SOCKET_ERROR) {
         printf("bind failed with error: %d\n", WSAGetLastError());
         freeaddrinfo(result);
-        closesocket(_listen_socket);
+        closesocket(_socket);
         WSACleanup();
         return;
     }
@@ -104,25 +104,26 @@ void Server::_server_loop()
 
     while (_running){
 
-        iResult = listen(_listen_socket, SOMAXCONN);
+        iResult = listen(_socket, SOMAXCONN);
         if (iResult == SOCKET_ERROR) {
             printf("listen failed with error: %d\n", WSAGetLastError());
-            closesocket(_listen_socket);
+            closesocket(_socket);
             WSACleanup();
             return;
         }
 
         // Accept a client socket
-        SOCKET client = accept(_listen_socket, NULL, NULL);
-        if (client == INVALID_SOCKET) {
+        SOCKET client_socket = accept(_socket, NULL, NULL);
+        if (client_socket == INVALID_SOCKET) {
             printf("accept failed with error: %d\n", WSAGetLastError());
-            closesocket(_listen_socket);
+            closesocket(_socket);
             WSACleanup();
             return;
         }
 
         // Create new thread with the new socket connection
-        thread client_thread (&Server::_client_loop,this,client);
+        //thread client_thread (&Server::_client_loop,this,client);
+        _client_thread = make_shared<thread>(&Server::_client_loop,this,client_socket);
     }
    
 }
@@ -133,9 +134,11 @@ void Server::_client_loop(SOCKET socket){
     char recvbuf[Server::DEFAULT_BUFLEN];
     int recvbuflen = Server::DEFAULT_BUFLEN;
     // Receive until the peer shuts down the connection
+    cout << "Client connected. Syncronizing.." << endl;
     do {
-
+        cout << "Wating for Messages...." << endl;
         iResult = recv(socket, recvbuf, recvbuflen, 0);
+        cout << "Received from Client.." << endl;
         if (iResult > 0) {
             printf("Bytes received: %d\n", iResult);
 
@@ -157,7 +160,8 @@ void Server::_client_loop(SOCKET socket){
             WSACleanup();
             return;
         }
-
+        // Sleep 1 second
+        std::this_thread::sleep_for (std::chrono::seconds(1));
     } while (iResult > 0);
 
     // shutdown the connection since we're done
