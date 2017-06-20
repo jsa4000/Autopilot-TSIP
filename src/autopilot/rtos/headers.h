@@ -3,7 +3,9 @@
 
 #include <stdint.h>
 #include <iostream>
-#include <thread>         
+#include <thread>   
+#include <functional>
+#include <vector>      
 #include <chrono>  
 #include <thread>
 #include <string>

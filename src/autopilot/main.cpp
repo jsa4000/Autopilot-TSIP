@@ -13,13 +13,13 @@ int main(int argc, const char * argv[]) {
 
     char c;
     // WAIT UNTIL THE END OR QUIT
-     while (os.is_running() && (c != 'q')){
+    while (os.is_running() && (c != 'q')){
         // Read the user key
         c = getchar();
         if (c == 'q') {
             cout << "RTOS SHUTTING-DOWN" << endl;
         }
-     }
+    }
 
     // Shutdown RTOS
     os.shutdown();

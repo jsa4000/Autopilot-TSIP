@@ -9,12 +9,18 @@ class RTOS : public Task {
         ~ RTOS();
 
         bool init();
+        bool init2();
         void shutdown();
+
+                // Task
+        vector<Task> _tasks;
 
     private:
     
         //Function to overwrite
         void _default_callback();
+
+        
        
 };
 

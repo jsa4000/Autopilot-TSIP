@@ -1,9 +1,9 @@
 #include "task.h"
 
 Task::Task(string name, uint8_t priority, uint64_t timer,
-            func_ptr* callback, void* parameters):
+            function<void()> callback, void* parameters):
     _name(name),_priority(priority),_timer(timer),
-    _callback(callback),_running(false) {
+    _callback(callback),_parameters(parameters),_running(false) {
     // Initialize other parameters of the constructor
     _state = UNDEFINED_STATE;
 }
@@ -25,6 +25,8 @@ bool Task::start(){
         _running = true;
         // Create the new thread
         _thread = make_shared<thread>(&Task::_callback_process,this);
+        // Detach the thread from the current context
+        _thread->detach();
         // return true
         return true;
     }
@@ -61,7 +63,7 @@ void Task::_callback_process(){
         // Check whether the thread has been set to run a callback
         if (_callback != nullptr){
             // Call to the function directly
-            (*_callback)();
+            _callback();
         }
         else {
             // Call to the default function to override

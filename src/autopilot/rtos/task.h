@@ -15,13 +15,14 @@
 #define UNDEFINED_STATE  0x08
 
 // Define the function type for the callback
-typedef void (*func_ptr)(void);
+// https://oopscenities.net/2012/02/24/c11-stdfunction-and-stdbind/
+//typedef void (*func_ptr)(void);
 
 class Task {
 
     public: 
         Task(string name, uint8_t priority=MID_PRIORITY, uint64_t timer=1000,
-             func_ptr* callback=nullptr, void* parameters=nullptr);
+            function<void()> callback=nullptr, void* parameters=nullptr);
         ~ Task();
 
         bool start();
@@ -43,9 +44,9 @@ class Task {
         // Time for the ticks in Milliseconds
         uint64_t _timer; 
         // Callback function to call
-        func_ptr* _callback = nullptr;
+        function<void()> _callback = nullptr;
         // Parameters to send to the callback function
-        void* _parameters = nullptr;
+        void *_parameters = nullptr;
 
         // Default State (undefined)
         int _state = UNDEFINED_STATE;
