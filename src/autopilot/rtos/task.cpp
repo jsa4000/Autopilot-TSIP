@@ -48,6 +48,14 @@ bool Task::is_running(){
     return _running;
 }
 
+void Task::set_state(uint8_t state){
+    _state = state;
+}
+
+uint8_t Task::get_state(){
+    return _state;
+}
+
 auto Task::get_current_time(){
     return std::chrono::system_clock::now();
 }
@@ -56,8 +64,15 @@ void Task::_callback_process(){
     // Get the time-ticks for the current task
     std::chrono::system_clock::time_point start_time, end_time;
     uint64_t timediff;
+    _state = READY_STATE;
     // Start the thread loop for the current task
     while (_running) {
+        // Check if the task must be launched
+        if (_state != RUN_STATE) {
+            //Wait until run state is on
+            sleep(10);
+            continue;
+        }
         // Get the start time
         start_time = get_current_time();
         // Check whether the thread has been set to run a callback
@@ -77,6 +92,8 @@ void Task::_callback_process(){
         // Check if the Task need sleep some time before the next iteration
         if (timediff < _timer)
             sleep(_timer - timediff);
+        // Set the current Task as READY_STATE
+        _state = READY_STATE;
     }
 
 }

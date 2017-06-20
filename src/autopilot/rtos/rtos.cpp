@@ -23,10 +23,12 @@ void tsip_process(){
 void display_process(){
     cout << "This is the display Process" << endl;
     //cout << std::chrono::system_clock::now() << endl;
+    //std::cout << "\x1B[2J\x1B[H";
+    // #include <stdlib.h>
+    // system("cls");
 }
 
 bool RTOS::init(){
-
     // Initilaize the different subsystems, drivers, etc..
     _tasks.push_back(Task("idle", LOW_PRIORITY, 500, idle_process));
     // Sokets for TCPIP/COM connection

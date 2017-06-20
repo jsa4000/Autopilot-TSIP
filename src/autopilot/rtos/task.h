@@ -21,19 +21,22 @@
 class Task {
 
     public: 
-        Task(string name, uint8_t priority=MID_PRIORITY, uint64_t timer=1000,
+         Task(string name, uint8_t priority=MID_PRIORITY, uint64_t timer=1000,
             function<void()> callback=nullptr, void* parameters=nullptr);
         ~ Task();
 
-        bool start();
+        bool    start();
 
-        bool stop();
+        bool    stop();
         
-        bool is_running();
+        bool    is_running();
 
-        void sleep(int milliseconds);
+        void    set_state(uint8_t state);
+        uint8_t get_state();
 
-        auto get_current_time();
+        void    sleep(int milliseconds);
+
+        auto    get_current_time();
 
     protected:
         
