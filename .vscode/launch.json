@@ -13,7 +13,7 @@
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "C:\\MinGw\\bin\\gdb.exe"
+            "miDebuggerPath": "gdb.exe"
         },
           
         {
@@ -27,7 +27,7 @@
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "C:\\MinGw\\bin\\gdb.exe"
+            "miDebuggerPath": "gdb.exe"
         }
     ]
 }

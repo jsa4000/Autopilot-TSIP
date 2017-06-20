@@ -1,4 +1,3 @@
-#include <iostream>
 #include "rtos/rtos.h"
 
 int main(int argc, const char * argv[]) {
@@ -11,12 +10,19 @@ int main(int argc, const char * argv[]) {
     RTOS os = RTOS(1000);
     os.start();
 
-    // // WAIT UNTIL THE END OR QUIT
-     while (os.is_running()){
-        
-         //os.stop()
+    char c;
+    // WAIT UNTIL THE END OR QUIT
+     while (os.is_running() && (c != 'q')){
+        // Read the user key
+        c = getchar();
+        if (c == 'q') {
+            cout << "RTOS Shoutdown" << endl;
+        }
      }
-  
+
+    // Stop RTOS
+    os.stop();
+
     // END THE PROGRAM
     cout << "PROGRAM ENDED" << endl;
 }

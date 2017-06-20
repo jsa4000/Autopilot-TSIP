@@ -1,7 +1,6 @@
 #ifndef _RTOS_H_
 #define _RTOS_H_
 
-#include <devices/client.h>
 #include "task.h"
 
 class RTOS : public Task {
@@ -10,8 +9,9 @@ class RTOS : public Task {
         ~ RTOS();
 
     private:
+    
         //Function to overwrite
-        void _process();
+        void _default_callback();
        
 };
 

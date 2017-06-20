@@ -13,9 +13,10 @@
 
 ## Boost.Build setup
 1. Open Command Prompt and navigate to `C:\MinGW\boost\boost_1_64_0\tools\build`.
-2. Run `bootstrap.bat mingw` or `bootstrap.bat gcc`
+2. Run `bootstrap.bat mingw` or `bootstrap.bat gcc` or `bootstrap.bat` .
 3. Run `b2 install --prefix="C:\MinGW\boost\boost-build"`.
 4. Add `C:\MinGW\boost\boost-build\bin` to Windows PATH.
+> rundll32 sysdm.cpl,EditEnvironmentVariables
 
 ## boost building
 1. Open Command Prompt and navigate to `C:\MinGW\boost\boost_1_64_0`.
@@ -28,6 +29,8 @@ b2 --build-dir="C:\MinGW\boost\boost_1_64_0\build" --prefix="C:\MinGW\boost\boos
 1. Add include folder, i.e. `C:\MinGW\boost\include\boost-1_59`.
 2. Add linker folder, i.e. `C:\MinGW\boost\lib`.
 3. Link required libraries, e.g. `libboost_regex-mgw48-mt-1_59.a`.
+
+4. Example, e.g. g++ -Wall -g -L`C:\MinGW\boost\lib` -I`C:\MinGW\boost\include\boost-1_59` `class.spp` `libboost_regex-mgw48-mt-1_59.a`
 
 ## Visual Studio Code
 

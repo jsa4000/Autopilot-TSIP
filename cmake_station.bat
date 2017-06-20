@@ -3,11 +3,17 @@ echo "START"
 
 :: Enable Functionality to vc++ 14
 set c_version="c++14"
+:: Boost library path
+::set boost_path="C:/MinGW/boost"
+set boost_path="C:/jsantos/Software/MinGW/boost/boost
 :: Boost C++ Library compiled x64 intel
-set include_boost_path="C:/MinGW/boost/boost/include/boost-1_64"
-set lib_boost_path="C:/MinGW/boost/boost/lib"
+set include_boost_path=%boost_path%/include/boost-1_64"
+set lib_boost_path=%boost_path%/lib"
 :: Library to load the Sockets. Always at the end of g++ compiling
 set lib_sockets="ws2_32"
+
+:: Check if the bin folder doesn't exist yet
+if not exist "bin" mkdir "bin"
 
 echo "COMPILING SERVER LIBRARY..."
 

@@ -3,11 +3,17 @@ echo "START"
 
 :: Enable Functionality to vc++ 14
 set c_version="c++14"
+:: Boost library path. Be careful with the quote marks
+::set boost_path="C:/MinGW/boost
+set boost_path="C:/jsantos/Software/MinGW/boost/boost
 :: Boost C++ Library compiled x64 intel
-set include_boost_path="C:/MinGW/boost/boost/include/boost-1_64"
-set lib_boost_path="C:/MinGW/boost/boost/lib"
+set include_boost_path=%boost_path%/include/boost-1_64"
+set lib_boost_path=%boost_path%/lib"
 :: Library to load the Sockets. Always at the end of g++ compiling
 set lib_sockets="ws2_32"
+
+:: Check if the bin folder doesn't exist yet
+if not exist "bin/" mkdir "bin"
 
 echo "COMPILING DEVICES LIBRARY..."
 
@@ -22,17 +28,14 @@ echo "COMPILING RTOS LIBRARY..."
 
 set include_path="src/autopilot"
 set output_rtos_file="bin/rtos.o"
-set output_tsip_file="bin/tsip.o"
 set output_task_file="bin/task.o"
-set cpp_files="src/autopilot/rtos/tsip.cpp"
-set cpp_files2="src/autopilot/rtos/rtos.cpp"
-set cpp_files3="src/autopilot/rtos/task.cpp"
+set cpp_rtos_file="src/autopilot/rtos/rtos.cpp"
+set cpp_task_file="src/autopilot/rtos/task.cpp"
 set lib_rtos_file="bin/rtos.a"
 
-g++ -g -c -std=%c_version% -pthread -I%include_path% -I%include_boost_path% -L%lib_boost_path% -o%output_tsip_file% %cpp_files% %lib_devices_file% -l%lib_sockets%
-g++ -g -c -std=%c_version% -pthread -I%include_path% -I%include_boost_path% -L%lib_boost_path% -o%output_rtos_file% %cpp_files2% %lib_devices_file% -l%lib_sockets%
-g++ -g -c -std=%c_version% -pthread -I%include_path% -I%include_boost_path% -L%lib_boost_path% -o%output_task_file% %cpp_files3% %lib_devices_file% -l%lib_sockets%
-ar rvs %lib_rtos_file% %output_tsip_file% %output_rtos_file% %output_task_file%
+g++ -g -c -std=%c_version% -pthread -I%include_path% -I%include_boost_path% -L%lib_boost_path% -o%output_rtos_file% %cpp_rtos_file% %lib_devices_file% -l%lib_sockets%
+g++ -g -c -std=%c_version% -pthread -I%include_path% -I%include_boost_path% -L%lib_boost_path% -o%output_task_file% %cpp_task_file% %lib_devices_file% -l%lib_sockets%
+ar rvs %lib_rtos_file% %output_rtos_file% %output_task_file%
 
 echo "COMPILING MAIN PROGRAM..."
 
