@@ -5,7 +5,7 @@
 
 class RTOS : public Task {
     public: 
-        RTOS(int timer = 1000);
+        RTOS(uint64_t timer = 1000);
         ~ RTOS();
 
         bool init();

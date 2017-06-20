@@ -20,7 +20,7 @@ typedef void (*func_ptr)(void);
 class Task {
 
     public: 
-        Task(string name, int priority=MID_PRIORITY, int timer=1000,
+        Task(string name, uint8_t priority=MID_PRIORITY, uint64_t timer=1000,
              func_ptr* callback=nullptr, void* parameters=nullptr);
         ~ Task();
 
@@ -30,14 +30,18 @@ class Task {
         
         bool is_running();
 
+        void sleep(int milliseconds);
+
+        auto get_current_time();
+
     protected:
         
         // Name of the task
         string _name;
         // Priority of the Task
-        int _priority = LOW_PRIORITY;
+        uint8_t _priority = LOW_PRIORITY;
         // Time for the ticks in Milliseconds
-        int _timer; 
+        uint64_t _timer; 
         // Callback function to call
         func_ptr* _callback = nullptr;
         // Parameters to send to the callback function

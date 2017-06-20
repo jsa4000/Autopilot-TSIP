@@ -1,7 +1,7 @@
 #include "task.h"
 
-Task::Task(string name, int priority, int timer, 
-           func_ptr* callback, void* parameters):
+Task::Task(string name, uint8_t priority, uint64_t timer,
+            func_ptr* callback, void* parameters):
     _name(name),_priority(priority),_timer(timer),
     _callback(callback),_running(false) {
     // Initialize other parameters of the constructor
@@ -12,6 +12,10 @@ Task::~Task(){
     if (_thread != NULL){
         _thread == NULL;
     }
+}
+
+void Task::sleep(int milliseconds){
+     std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
 
 bool Task::start(){
@@ -42,9 +46,18 @@ bool Task::is_running(){
     return _running;
 }
 
+auto Task::get_current_time(){
+    return std::chrono::system_clock::now();
+}
+
 void Task::_callback_process(){
+    // Get the time-ticks for the current task
+    std::chrono::system_clock::time_point start_time, end_time;
+    uint64_t timediff;
     // Start the thread loop for the current task
     while (_running) {
+        // Get the start time
+        start_time = get_current_time();
         // Check whether the thread has been set to run a callback
         if (_callback != nullptr){
             // Call to the function directly
@@ -54,6 +67,14 @@ void Task::_callback_process(){
             // Call to the default function to override
             _default_callback();
         }
+        // Get the end time
+        end_time = get_current_time();
+        // Check until the next tick for perform the task
+        timediff = std::chrono::duration_cast<std::chrono::milliseconds>
+              (end_time - start_time).count();
+        // Check if the Task need sleep some time before the next iteration
+        if (timediff < _timer)
+            sleep(_timer - timediff);
     }
 
 }
