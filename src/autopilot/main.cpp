@@ -8,6 +8,7 @@ int main(int argc, const char * argv[]) {
 
     //START THE REAL-TIME OPERATIVE SYSTEM (RTOS)
     RTOS os = RTOS(1000);
+    os.init();
     os.start();
 
     char c;
@@ -16,12 +17,12 @@ int main(int argc, const char * argv[]) {
         // Read the user key
         c = getchar();
         if (c == 'q') {
-            cout << "RTOS Shoutdown" << endl;
+            cout << "RTOS SHUTTING-DOWN" << endl;
         }
      }
 
-    // Stop RTOS
-    os.stop();
+    // Shutdown RTOS
+    os.shutdown();
 
     // END THE PROGRAM
     cout << "PROGRAM ENDED" << endl;

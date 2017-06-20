@@ -8,6 +8,9 @@ class RTOS : public Task {
         RTOS(int timer = 1000);
         ~ RTOS();
 
+        bool init();
+        void shutdown();
+
     private:
     
         //Function to overwrite

@@ -8,6 +8,16 @@ RTOS::RTOS(int timer)
 RTOS::~RTOS(){
 }
 
+bool RTOS::init(){
+    return true;
+}
+
+void RTOS::shutdown(){
+
+    // finally stop the main thread
+    stop();
+}
+
 void RTOS::_default_callback(){
 
     std::cout << "countdown:\n";
