@@ -40,13 +40,13 @@ void display_process(){
 
 bool RTOS::init(){
     // Initilaize the different subsystems, drivers, etc..
-    _scheduler->add(Task("idle", LOW_PRIORITY, 500, idle_process));
+    _scheduler->add(new Task("idle", LOW_PRIORITY, 500, idle_process));
     // Sokets for TCPIP/COM connection
-    _scheduler->add(Task("socket", HIGH_PRIORITY, 200, socket_process));
+    _scheduler->add(new Task("socket", HIGH_PRIORITY, 400, socket_process));
     // TSIP task, 200Hz, Non highest nor lowest.
-    _scheduler->add(Task("TSIP", MID_PRIORITY, 200, tsip_process));
+    _scheduler->add(new Task("TSIP", MID_PRIORITY, 200, tsip_process));
     // Display Task to show the time
-    _scheduler->add(Task("display",LOW_PRIORITY, 1000, display_process));
+    _scheduler->add(new Task("display",LOW_PRIORITY, 1000, display_process));
  
     // Return the result of the initilization
     return true;

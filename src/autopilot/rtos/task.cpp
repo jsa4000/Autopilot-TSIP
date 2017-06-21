@@ -9,8 +9,9 @@ Task::Task(string name, uint8_t priority, uint64_t timer,
 }
 
 Task::~Task(){
-    if (_thread != NULL){
-        _thread == NULL;
+    if (_thread){
+        delete _thread;
+        _thread = nullptr;
     }
 }
 
@@ -20,11 +21,11 @@ void Task::sleep(int milliseconds){
 
 bool Task::start(){
     // Check if the thread already exist
-    if (_thread == NULL) {
+    if (!_thread) {
         // Set running as true
         _running = true;
         // Create the new thread
-        _thread = make_shared<thread>(&Task::_callback_process,this);
+        _thread = new thread(&Task::_callback_process,this);
         // Detach the thread from the current context
         _thread->detach();
         // return true
@@ -40,6 +41,8 @@ bool Task::stop(){
         _running = false;
         // Pause until the thread ends
         _thread->join();
+        delete _thread;
+        _thread = nullptr;
     }
     return true;
 }
@@ -56,6 +59,10 @@ uint8_t Task::get_state(){
     return _state;
 }
 
+string Task::get_name(){
+    return _name;
+}
+
 uint8_t Task::get_priority(){
     return _priority;
 }
@@ -68,6 +75,8 @@ void Task::_callback_process(){
     // Get the time-ticks for the current task
     std::chrono::system_clock::time_point start_time, end_time;
     uint64_t timediff;
+    // Set the current Task as READY_STATE
+    _state = READY_STATE;
     // Start the thread loop for the current task
     while (_running) {
         // Check if the task must be launched
@@ -79,7 +88,7 @@ void Task::_callback_process(){
         // Get the start time
         start_time = get_current_time();
         // Check whether the thread has been set to run a callback
-        if (_callback != nullptr){
+        if (_callback){
             // Call to the function directly
             _callback();
         }

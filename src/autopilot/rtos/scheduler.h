@@ -8,7 +8,7 @@ class Scheduler : public Task {
         Scheduler(uint64_t timer = 10);
         ~ Scheduler();
 
-        void add(Task task);
+        void add(Task* task);
       
     private:
     
@@ -20,9 +20,9 @@ class Scheduler : public Task {
         Task *_current = nullptr;
 
         // Priority queues
-        queue<Task> _high_priority;
-        queue<Task> _mid_priority;
-        queue<Task> _low_priority;
+        queue<Task*> _high_priority;
+        queue<Task*> _mid_priority;
+        queue<Task*> _low_priority;
       
 };
 

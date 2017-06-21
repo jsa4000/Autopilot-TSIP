@@ -35,6 +35,7 @@ class Task {
         uint8_t get_state();
 
         uint8_t get_priority();
+        string get_name();
 
         void    sleep(int milliseconds);
 
@@ -61,7 +62,7 @@ class Task {
         // Main loop function for the task
         virtual void _default_callback(void){} 
         // Thread and mutex for the Task
-        shared_ptr<thread> _thread = nullptr;
+        thread *_thread = nullptr;
         // Whether the task is running or not
         bool _running = false;
         // Stateless task
