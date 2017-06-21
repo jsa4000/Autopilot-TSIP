@@ -7,7 +7,10 @@ Scheduler::Scheduler(uint64_t timer)
 }
 
 Scheduler::~Scheduler(){
-
+    // Clean the Momery allocated
+    while(!_high_priority.empty()) delete _high_priority.front(), _high_priority.pop();
+    while(!_mid_priority.empty()) delete _mid_priority.front(), _mid_priority.pop();
+    while(!_low_priority.empty()) delete _low_priority.front(), _low_priority.pop();
 }
 
 void Scheduler::add(Task* task){

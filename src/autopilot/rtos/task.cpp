@@ -10,6 +10,8 @@ Task::Task(string name, uint8_t priority, uint64_t timer,
 
 Task::~Task(){
     if (_thread){
+        // Pause until the thread ends
+        _thread->join();
         delete _thread;
         _thread = nullptr;
     }
