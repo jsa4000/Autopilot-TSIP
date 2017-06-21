@@ -10,9 +10,9 @@
 
 // Define different States for the Tasks
 #define READY_STATE      0x01
-#define WAIT_STATE       0x02
-#define RUN_STATE        0x04
-#define UNDEFINED_STATE  0x08
+#define WAITING_STATE    0x02
+#define RUNNING_STATE    0x04
+#define NO_STATE         0x08
 
 // Define the function type for the callback
 // https://oopscenities.net/2012/02/24/c11-stdfunction-and-stdbind/
@@ -34,6 +34,8 @@ class Task {
         void    set_state(uint8_t state);
         uint8_t get_state();
 
+        uint8_t get_priority();
+
         void    sleep(int milliseconds);
 
         auto    get_current_time();
@@ -52,7 +54,7 @@ class Task {
         void *_parameters = nullptr;
 
         // Default State (undefined)
-        int _state = UNDEFINED_STATE;
+        int _state = NO_STATE;
 
         // Main loop function for the task
         void _callback_process(); 
@@ -62,6 +64,8 @@ class Task {
         shared_ptr<thread> _thread = nullptr;
         // Whether the task is running or not
         bool _running = false;
+        // Stateless task
+        bool _stateless = false;
 
 };
 

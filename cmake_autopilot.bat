@@ -4,8 +4,8 @@ echo "START"
 :: Enable Functionality to vc++ 14
 set c_version="c++14"
 :: Boost library path. Be careful with the quote marks
-set boost_path="C:/MinGW/boost
-::set boost_path="C:/jsantos/Software/MinGW/boost/boost
+::set boost_path="C:/MinGW/boost
+set boost_path="C:/jsantos/Software/MinGW/boost/boost
 :: Boost C++ Library compiled x64 intel
 set include_boost_path=%boost_path%/include/boost-1_64"
 set lib_boost_path=%boost_path%/lib"
@@ -28,14 +28,17 @@ echo "COMPILING RTOS LIBRARY..."
 
 set include_path="src/autopilot"
 set output_rtos_file="bin/rtos.o"
+set output_scheduler_file="bin/scheduler.o"
 set output_task_file="bin/task.o"
 set cpp_rtos_file="src/autopilot/rtos/rtos.cpp"
+set cpp_scheduler_file="src/autopilot/rtos/scheduler.cpp"
 set cpp_task_file="src/autopilot/rtos/task.cpp"
 set lib_rtos_file="bin/rtos.a"
 
 g++ -g -c -std=%c_version% -pthread -I%include_path% -I%include_boost_path% -L%lib_boost_path% -o%output_rtos_file% %cpp_rtos_file% %lib_devices_file% -l%lib_sockets%
+g++ -g -c -std=%c_version% -pthread -I%include_path% -I%include_boost_path% -L%lib_boost_path% -o%output_scheduler_file% %cpp_scheduler_file% %lib_devices_file% -l%lib_sockets%
 g++ -g -c -std=%c_version% -pthread -I%include_path% -I%include_boost_path% -L%lib_boost_path% -o%output_task_file% %cpp_task_file% %lib_devices_file% -l%lib_sockets%
-ar rvs %lib_rtos_file% %output_rtos_file% %output_task_file%
+ar rvs %lib_rtos_file% %output_rtos_file% %output_scheduler_file% %output_task_file%
 
 echo "COMPILING MAIN PROGRAM..."
 

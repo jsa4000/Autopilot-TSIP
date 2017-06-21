@@ -5,7 +5,7 @@ Task::Task(string name, uint8_t priority, uint64_t timer,
     _name(name),_priority(priority),_timer(timer),
     _callback(callback),_parameters(parameters),_running(false) {
     // Initialize other parameters of the constructor
-    _state = UNDEFINED_STATE;
+    _state = NO_STATE;
 }
 
 Task::~Task(){
@@ -56,6 +56,10 @@ uint8_t Task::get_state(){
     return _state;
 }
 
+uint8_t Task::get_priority(){
+    return _priority;
+}
+
 auto Task::get_current_time(){
     return std::chrono::system_clock::now();
 }
@@ -64,11 +68,10 @@ void Task::_callback_process(){
     // Get the time-ticks for the current task
     std::chrono::system_clock::time_point start_time, end_time;
     uint64_t timediff;
-    _state = READY_STATE;
     // Start the thread loop for the current task
     while (_running) {
         // Check if the task must be launched
-        if (_state != RUN_STATE) {
+        if (_state != RUNNING_STATE && !_stateless) {
             //Wait until run state is on
             sleep(10);
             continue;
@@ -91,6 +94,7 @@ void Task::_callback_process(){
               (end_time - start_time).count();
         // Check if the Task need sleep some time before the next iteration
         if (timediff < _timer)
+            _state = WAITING_STATE;
             sleep(_timer - timediff);
         // Set the current Task as READY_STATE
         _state = READY_STATE;
