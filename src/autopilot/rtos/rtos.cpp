@@ -43,8 +43,13 @@ The serial port is read using DMA with a Buffer of 512
 
 */
 void DMARead200Hz(Task* task){
+
+    cout << "Reading Data from Serial Port... " << endl;
+
+    // Get the current Queue to share the params
     Queue<TsipPacket*> *packet_queue = (Queue<TsipPacket*>*) task->get_parameters();
     
+    // Create default variables
     bool DLE_Started = false;
     int32_t TSIP_index = 0;
     uint8_t read_byte, DMA_buffer[512];
@@ -95,6 +100,9 @@ will process such TSIP data, performing the required autopilot actions.
 
 */
 void TaskUplink200Hz(Task* task){
+
+    cout << "Transforming and Parsing TSIP data... " << endl;
+
     Queue<TsipPacket*> *packet_queue = (Queue<TsipPacket*>*) task->get_parameters();
     // Check the queued TSIP packets, parse them and perform the action.
     while (!packet_queue->empty()) {
