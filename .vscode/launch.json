@@ -14,20 +14,6 @@
             "externalConsole": true,
             "MIMode": "gdb",
             "miDebuggerPath": "gdb.exe"
-        },
-          
-        {
-            "name":"Station Server",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceRoot}/bin/station.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceRoot}",
-            "environment": [],
-            "externalConsole": true,
-            "MIMode": "gdb",
-            "miDebuggerPath": "gdb.exe"
         }
     ]
 }

@@ -17,12 +17,15 @@ if not exist "bin/" mkdir "bin"
 
 echo "COMPILING DEVICES LIBRARY..."
 
-set output_client_file="bin/client.o"
+set output_com_file="bin/com.o"
+set cpp_com_file="src/autopilot/devices/com.cpp"
+set output_tsip_file="bin/tsip.o"
+set cpp_tsip_file="src/autopilot/devices/tsip.cpp"
 set lib_devices_file="bin/devices.a"
-set cpp_files="src/autopilot/devices/client.cpp"
 
-g++ -g -c -std=%c_version% -pthread -I%include_boost_path% -L%lib_boost_path% -o%output_client_file% %cpp_files% -l%lib_sockets%
-ar rvs %lib_devices_file% %output_client_file%
+g++ -g -c -std=%c_version% -pthread -I%include_boost_path% -L%lib_boost_path% -o%output_com_file% %cpp_com_file% -l%lib_sockets%
+g++ -g -c -std=%c_version% -pthread -I%include_boost_path% -L%lib_boost_path% -o%output_tsip_file% %cpp_tsip_file% -l%lib_sockets%
+ar rvs %lib_devices_file% %output_com_file% %output_tsip_file%
 
 echo "COMPILING RTOS LIBRARY..."
 

@@ -1,6 +1,6 @@
 {
     "version": "0.1.0",
-    "command": "cmake_autopilot.bat",
+    "command": "make.bat",
     "isShellCommand": true,
     "showOutput": "always"
 }

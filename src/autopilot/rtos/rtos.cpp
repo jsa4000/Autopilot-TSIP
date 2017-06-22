@@ -16,37 +16,40 @@ RTOS::~RTOS(){
 }
 
 void idle_process(Task* task){
-    cout << "This is the Idle Process" << endl;
+    cout << "Verifying the system... " << endl;
 }
 
 void socket_process(Task* task){
-    cout << "This is the Socket Process" << endl;
-
     Queue<string> *packet_queue = (Queue<string>*) task->get_parameters();
 
-    packet_queue->push("Manolo");
-    packet_queue->push("Javier");
-    packet_queue->push("Ana");
-    packet_queue->push("Tomás");
+    // packet_queue->push("Manolo");
+    // packet_queue->push("Javier");
+    // packet_queue->push("Ana");
+    // packet_queue->push("Tomás");
 }
 
 void tsip_process(Task* task){
-    cout << "This is the TSIP Process" << endl;
-    
     Queue<string> *packet_queue = (Queue<string>*) task->get_parameters();
 
-    while (!packet_queue->empty()) {
-        cout << packet_queue->pop() << endl;
-    }
+    // while (!packet_queue->empty()) {
+    //     cout << packet_queue->pop() << endl;
+    // }
 
 }
 
 void display_process(Task* task){
-    cout << "This is the display Process" << endl;
-    //cout << std::chrono::system_clock::now() << endl;
-    //std::cout << "\x1B[2J\x1B[H";
-    // #include <stdlib.h>
-    // system("cls");
+    system("cls");
+    cout << "*****************************************" << endl;
+    cout << "*************    RTOS       *************" << endl;
+    cout << "*****************************************" << endl;
+
+    time_t _tm =time(NULL );
+    struct tm * curtime = localtime ( &_tm );
+    cout<< asctime(curtime);
+
+    cout << "*****************************************" << endl;
+    cout << "*****************************************" << endl;
+
 }
 
 bool RTOS::init(){
@@ -54,7 +57,7 @@ bool RTOS::init(){
     //shared_ptr<Queue<string>> packet_queue = make_shared<Queue<string>>();
     Queue<string> *packet_queue = new Queue<string>();
     // Initilaize the different subsystems, drivers, etc..
-    _scheduler->add(make_shared<Task>("idle", LOW_PRIORITY, 500, idle_process));
+    _scheduler->add(make_shared<Task>("idle", LOW_PRIORITY, 5000, idle_process));
     // Sokets for TCPIP/COM connection
     _scheduler->add(make_shared<Task>("socket", HIGH_PRIORITY, 400, socket_process, packet_queue));
     // TSIP task, 200Hz, Non highest nor lowest.
@@ -82,7 +85,7 @@ void RTOS::shutdown(){
 
 void RTOS::_default_callback(){
     // Main Process for the OS
-    cout << "RTOS Working" << endl;
+    
 }
 
 
