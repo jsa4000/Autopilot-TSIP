@@ -40,6 +40,17 @@ class Queue {
             // End critical section
             return _result;
         }
+
+         bool empty(){
+            // Critical Section
+            _lock.lock();
+            //lock_guard<mutex> guard(_lock); // If const
+                // Get the current size of the queue
+                bool _result= _queue.empty();
+            _lock.unlock();
+            // End critical section
+            return _result;
+        }
    
     private:
 

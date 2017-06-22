@@ -22,22 +22,23 @@ void idle_process(Task* task){
 void socket_process(Task* task){
     cout << "This is the Socket Process" << endl;
 
-    // packet_queue->push("Manolo");
-    // packet_queue->push("Javier");
-    // packet_queue->push("Ana");
-    // packet_queue->push("Tomás");
+    Queue<string> *packet_queue = (Queue<string>*) task->get_parameters();
 
+    packet_queue->push("Manolo");
+    packet_queue->push("Javier");
+    packet_queue->push("Ana");
+    packet_queue->push("Tomás");
 }
 
 void tsip_process(Task* task){
-
-    //shared_ptr<Queue<string>> packet_queue = *(shared_ptr<Queue<string>>*) task->get_parameters();
+    cout << "This is the TSIP Process" << endl;
+    
     Queue<string> *packet_queue = (Queue<string>*) task->get_parameters();
 
-    cout << packet_queue->pop() << endl;
-    cout << packet_queue->pop() << endl;
-    cout << packet_queue->pop() << endl;
-    cout << packet_queue->pop() << endl;
+    while (!packet_queue->empty()) {
+        cout << packet_queue->pop() << endl;
+    }
+    
 }
 
 void display_process(Task* task){
@@ -52,12 +53,6 @@ bool RTOS::init(){
     // Create shared queue to be passed between tasks socket and tsip
     //shared_ptr<Queue<string>> packet_queue = make_shared<Queue<string>>();
     Queue<string> *packet_queue = new Queue<string>();
-
-    packet_queue->push("Manolo");
-    packet_queue->push("Javier");
-    packet_queue->push("Ana");
-    packet_queue->push("Tomás");
-
     // Initilaize the different subsystems, drivers, etc..
     _scheduler->add(make_shared<Task>("idle", LOW_PRIORITY, 500, idle_process));
     // Sokets for TCPIP/COM connection
