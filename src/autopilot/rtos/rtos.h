@@ -18,7 +18,7 @@ class RTOS : public Task {
         //Function to overwrite
         void _default_callback();
         // Scheduler for Task Management
-        Scheduler *_scheduler = nullptr;        
+       shared_ptr<Scheduler> _scheduler = nullptr;        
        
 };
 

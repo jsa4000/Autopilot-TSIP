@@ -8,21 +8,21 @@ class Scheduler : public Task {
         Scheduler(uint64_t timer = 10);
         ~ Scheduler();
 
-        void add(Task* task);
+        void add(shared_ptr<Task> task);
       
     private:
     
         //Function to overwrite
         void _default_callback();
-        Task *_find_next();
+        shared_ptr<Task> _find_next();
 
         // Current Task
-        Task *_current = nullptr;
+        shared_ptr<Task> _current = nullptr;
 
         // Priority queues
-        queue<Task*> _high_priority;
-        queue<Task*> _mid_priority;
-        queue<Task*> _low_priority;
+        queue<shared_ptr<Task>> _high_priority;
+        queue<shared_ptr<Task>> _mid_priority;
+        queue<shared_ptr<Task>> _low_priority;
       
 };
 

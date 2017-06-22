@@ -8,12 +8,10 @@ Scheduler::Scheduler(uint64_t timer)
 
 Scheduler::~Scheduler(){
     // Clean the Momery allocated
-    while(!_high_priority.empty()) delete _high_priority.front(), _high_priority.pop();
-    while(!_mid_priority.empty()) delete _mid_priority.front(), _mid_priority.pop();
-    while(!_low_priority.empty()) delete _low_priority.front(), _low_priority.pop();
+ 
 }
 
-void Scheduler::add(Task* task){
+void Scheduler::add(shared_ptr<Task> task){
     switch (task->get_priority()) {
         case HIGH_PRIORITY:
             // Add the task of highest priority
@@ -30,12 +28,12 @@ void Scheduler::add(Task* task){
     }
 }
 
-Task* Scheduler::_find_next(){
-    Task *_result = nullptr;
+shared_ptr<Task> Scheduler::_find_next(){
+    shared_ptr<Task> _result = nullptr;
     // This function will iterate over all the list to get the next
     // task to activate. The states will be READY_STATE or NO_STATE
     for (int i=0;i<3;i++){
-        queue<Task*> *current_queue;
+        queue<shared_ptr<Task>> *current_queue;
         switch (i) {
             case 0:
                 current_queue = &_high_priority;
@@ -50,9 +48,9 @@ Task* Scheduler::_find_next(){
         // Check the current size of the queue
         if (current_queue->size()>0) {
             // For each element get the next Task to run
-            Task *first_task = current_queue->front();
+            shared_ptr<Task> first_task = current_queue->front();
             do {
-                Task *current_task = current_queue->front();
+                shared_ptr<Task> current_task = current_queue->front();
                 // Extract the current Task from the queue
                 current_queue->pop();
                 // Put into the queue again (At the end)

@@ -4,8 +4,8 @@ echo "START"
 :: Enable Functionality to vc++ 14
 set c_version="c++14"
 :: Boost library path. Be careful with the quote marks
-set boost_path="C:/MinGW/boost
-::set boost_path="C:/jsantos/Software/MinGW/boost/boost
+::set boost_path="C:/MinGW/boost
+set boost_path="C:/jsantos/Software/MinGW/boost/boost
 :: Boost C++ Library compiled x64 intel
 set include_boost_path=%boost_path%/include/boost-1_64"
 set lib_boost_path=%boost_path%/lib"

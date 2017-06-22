@@ -12,7 +12,6 @@ Task::~Task(){
     if (_thread){
         // Pause until the thread ends
         _thread->join();
-        delete _thread;
         _thread = nullptr;
     }
 }
@@ -27,7 +26,7 @@ bool Task::start(){
         // Set running as true
         _running = true;
         // Create the new thread
-        _thread = new thread(&Task::_callback_process,this);
+        _thread = make_shared<thread>(&Task::_callback_process,this);
         // Detach the thread from the current context
         _thread->detach();
         // return true
@@ -43,7 +42,6 @@ bool Task::stop(){
         _running = false;
         // Pause until the thread ends
         _thread->join();
-        delete _thread;
         _thread = nullptr;
     }
     return true;
@@ -57,15 +55,15 @@ void Task::set_state(uint8_t state){
     _state = state;
 }
 
-uint8_t Task::get_state(){
+uint8_t Task::get_state() const{
     return _state;
 }
 
-string Task::get_name(){
+string Task::get_name() const{
     return _name;
 }
 
-uint8_t Task::get_priority(){
+uint8_t Task::get_priority() const{
     return _priority;
 }
 

@@ -4,16 +4,13 @@ RTOS::RTOS(uint64_t timer)
     :Task("RTOS", HIGH_PRIORITY, timer) {
     // Create a new Scheduler by default (delfault pointer)
     _stateless = true;
-    _scheduler = new Scheduler(10);
+    _scheduler = make_shared<Scheduler>(10);
 }
 
 RTOS::~RTOS(){
     // Dispose the memory allocated
-    if ( _scheduler != nullptr){
-        if (_scheduler->is_running()){
-            _scheduler->stop();
-        }
-        delete _scheduler;
+    if (_scheduler && _scheduler->is_running()){
+        _scheduler->stop();
         _scheduler = nullptr;
     }
 }
@@ -40,15 +37,14 @@ void display_process(){
 
 bool RTOS::init(){
     // Initilaize the different subsystems, drivers, etc..
-    _scheduler->add(new Task("idle", LOW_PRIORITY, 500, idle_process));
+    _scheduler->add(make_shared<Task>("idle", LOW_PRIORITY, 500, idle_process));
     // Sokets for TCPIP/COM connection
-    _scheduler->add(new Task("socket", HIGH_PRIORITY, 400, socket_process));
+    _scheduler->add(make_shared<Task>("socket", HIGH_PRIORITY, 400, socket_process));
     // TSIP task, 200Hz, Non highest nor lowest.
-    _scheduler->add(new Task("TSIP", MID_PRIORITY, 200, tsip_process));
+    _scheduler->add(make_shared<Task>("TSIP", MID_PRIORITY, 200, tsip_process));
     // Display Task to show the time
-    _scheduler->add(new Task("display",LOW_PRIORITY, 1000, display_process));
- 
-    // Return the result of the initilization
+    _scheduler->add(make_shared<Task>("display",LOW_PRIORITY, 1000, display_process));
+     // Return the result of the initilization
     return true;
 }
 
@@ -69,9 +65,7 @@ void RTOS::shutdown(){
 
 void RTOS::_default_callback(){
     // Main Process for the OS
-
     cout << "RTOS Working" << endl;
-   
 }
 
 
