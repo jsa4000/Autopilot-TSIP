@@ -16,7 +16,7 @@ struct {
 
 // Define function prototypes, global data, macros.
 
-void tsip_read (void);
+void tsip_read (uint8_t * const buffer, const uint32_t count);
 void tsip_parse (void);
 void tsip_write (void);
 

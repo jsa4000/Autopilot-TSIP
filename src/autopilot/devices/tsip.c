@@ -1,83 +1,62 @@
 
 
+
+
 void tsip_listen (void)
 {
     int dle_active = 0;
-
     Tsip.index = 0;
-    for (;;) {
-        byte b, buf[1000];
-        long byte_count;
-        int i;
+    byte b, buf[1000];
+    long byte_count;
+    int i;
 
-        // Get next batch of bytes from serial port.
+    // Loop through buffer a byte at a time, handling DLE state.
+    //   1. DLE ETX  -- end of packet
+    //   2. DLE <c>  -- escape c
+    //   3. DLE      -- one of above
+    //   4. <c>      -- normal data
 
-        if (opt.use_stdin) {
-            int c;
-            if (EOF == (c = getchar())) {
-                fprintf(stderr, "** EOF at 0x%.8lX\n", stat.reads);
-                quit();
-            }
-            buf[0] = (byte) c;
-            byte_count = 1;
+    for (i = 0; i < byte_count; i += 1) {
+        b = buf[i];
+        if (dle_active) {
+            if (b == ETX) {
 
-        } else {
-            byte_count = CommRead(buf, sizeof buf);
-            if (opt.raw_file) {
-                fwrite(buf, byte_count, 1, opt.raw_file);
-                fflush(opt.raw_file);
-            }
-        }
-        stat.bytes += byte_count;
-        stat.reads += 1;
+                // 1. End of packet detected (DLE ETX).
 
-        // Loop through buffer a byte at a time, handling DLE state.
-        //   1. DLE ETX  -- end of packet
-        //   2. DLE <c>  -- escape c
-        //   3. DLE      -- one of above
-        //   4. <c>      -- normal data
-
-        for (i = 0; i < byte_count; i += 1) {
-            b = buf[i];
-            if (dle_active) {
-                if (b == ETX) {
-
-                    // 1. End of packet detected (DLE ETX).
-
-                    tsip_triage();
-                    Tsip.index = 0;
-
-                } else {
-
-                    // 2. Store escaped character.
-
-                    Tsip.data[Tsip.index++] = b;
-                }
-                dle_active = 0;
+                tsip_triage();
+                Tsip.index = 0;
 
             } else {
-                if (b == DLE) {
 
-                    // 3. Mark DLE state and get next character.
+                // 2. Store escaped character.
 
-                    dle_active = 1;
-
-                } else {
-
-                    // 4. Store normal data byte.
-
-                    Tsip.data[Tsip.index++] = b;
-                }
+                Tsip.data[Tsip.index++] = b;
             }
+            dle_active = 0;
 
-            // Buffer overflow will occur for bogus non-TSIP serial data.
+        } else {
+            if (b == DLE) {
 
-            if (Tsip.index >= sizeof Tsip.data) {
-                fprintf(stderr, "** lots of non-TSIP data detected\n");
-                Tsip.index = 0;
+                // 3. Mark DLE state and get next character.
+
+                dle_active = 1;
+
+            } else {
+
+                // 4. Store normal data byte.
+
+                Tsip.data[Tsip.index++] = b;
             }
         }
+
+        // Buffer overflow will occur for bogus non-TSIP serial data.
+
+        if (Tsip.index >= sizeof Tsip.data) {
+            fprintf(stderr, "** lots of non-TSIP data detected\n");
+            Tsip.index = 0;
+        }
     }
+    
 }
 
 //
