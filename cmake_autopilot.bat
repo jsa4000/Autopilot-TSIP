@@ -38,7 +38,7 @@ set lib_rtos_file="bin/rtos.a"
 g++ -g -c -std=%c_version% -pthread -I%include_path% -I%include_boost_path% -L%lib_boost_path% -o%output_rtos_file% %cpp_rtos_file% %lib_devices_file% -l%lib_sockets%
 g++ -g -c -std=%c_version% -pthread -I%include_path% -I%include_boost_path% -L%lib_boost_path% -o%output_scheduler_file% %cpp_scheduler_file% %lib_devices_file% -l%lib_sockets%
 g++ -g -c -std=%c_version% -pthread -I%include_path% -I%include_boost_path% -L%lib_boost_path% -o%output_task_file% %cpp_task_file% %lib_devices_file% -l%lib_sockets%
-ar rvs %lib_rtos_file% %output_rtos_file% %output_scheduler_file% %output_task_file%
+ar rvs %lib_rtos_file% %output_queue_file% %output_rtos_file% %output_scheduler_file% %output_task_file%
 
 echo "COMPILING MAIN PROGRAM..."
 

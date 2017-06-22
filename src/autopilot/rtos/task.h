@@ -22,7 +22,7 @@ class Task {
 
     public: 
          Task(string name, uint8_t priority=MID_PRIORITY, uint64_t timer=1000,
-            function<void()> callback=nullptr, void* parameters=nullptr);
+            function<void(Task*)> callback=nullptr, void* parameters=nullptr);
         ~ Task();
 
         bool    start();
@@ -35,7 +35,9 @@ class Task {
         uint8_t get_state() const;
 
         uint8_t get_priority()  const;
-        string get_name()  const;
+        string  get_name()  const;
+
+        void*   get_parameters();
 
         void    sleep(int milliseconds);
 
@@ -50,9 +52,9 @@ class Task {
         // Time for the ticks in Milliseconds
         uint64_t _timer; 
         // Callback function to call
-        function<void()> _callback = nullptr;
+        function<void(Task*)> _callback = nullptr;
         // Parameters to send to the callback function
-        void *_parameters = nullptr;
+        void* _parameters = nullptr;
 
         // Default State (undefined)
         int _state = NO_STATE;

@@ -15,19 +15,32 @@ RTOS::~RTOS(){
     }
 }
 
-void idle_process(){
+void idle_process(Task* task){
     cout << "This is the Idle Process" << endl;
 }
 
-void socket_process(){
+void socket_process(Task* task){
     cout << "This is the Socket Process" << endl;
+
+    // packet_queue->push("Manolo");
+    // packet_queue->push("Javier");
+    // packet_queue->push("Ana");
+    // packet_queue->push("Tomás");
+
 }
 
-void tsip_process(){
-    cout << "This is the TSIP Process" << endl;
+void tsip_process(Task* task){
+
+    //shared_ptr<Queue<string>> packet_queue = *(shared_ptr<Queue<string>>*) task->get_parameters();
+    Queue<string> *packet_queue = (Queue<string>*) task->get_parameters();
+
+    cout << packet_queue->pop() << endl;
+    cout << packet_queue->pop() << endl;
+    cout << packet_queue->pop() << endl;
+    cout << packet_queue->pop() << endl;
 }
 
-void display_process(){
+void display_process(Task* task){
     cout << "This is the display Process" << endl;
     //cout << std::chrono::system_clock::now() << endl;
     //std::cout << "\x1B[2J\x1B[H";
@@ -36,12 +49,21 @@ void display_process(){
 }
 
 bool RTOS::init(){
+    // Create shared queue to be passed between tasks socket and tsip
+    //shared_ptr<Queue<string>> packet_queue = make_shared<Queue<string>>();
+    Queue<string> *packet_queue = new Queue<string>();
+
+    packet_queue->push("Manolo");
+    packet_queue->push("Javier");
+    packet_queue->push("Ana");
+    packet_queue->push("Tomás");
+
     // Initilaize the different subsystems, drivers, etc..
     _scheduler->add(make_shared<Task>("idle", LOW_PRIORITY, 500, idle_process));
     // Sokets for TCPIP/COM connection
-    _scheduler->add(make_shared<Task>("socket", HIGH_PRIORITY, 400, socket_process));
+    _scheduler->add(make_shared<Task>("socket", HIGH_PRIORITY, 400, socket_process, packet_queue));
     // TSIP task, 200Hz, Non highest nor lowest.
-    _scheduler->add(make_shared<Task>("TSIP", MID_PRIORITY, 200, tsip_process));
+    _scheduler->add(make_shared<Task>("TSIP", MID_PRIORITY, 200, tsip_process, packet_queue));
     // Display Task to show the time
     _scheduler->add(make_shared<Task>("display",LOW_PRIORITY, 1000, display_process));
      // Return the result of the initilization

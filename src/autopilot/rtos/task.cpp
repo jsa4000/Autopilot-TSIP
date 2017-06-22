@@ -1,7 +1,7 @@
 #include "task.h"
 
 Task::Task(string name, uint8_t priority, uint64_t timer,
-            function<void()> callback, void* parameters):
+            function<void(Task*)> callback, void *parameters):
     _name(name),_priority(priority),_timer(timer),
     _callback(callback),_parameters(parameters),_running(false) {
     // Initialize other parameters of the constructor
@@ -63,6 +63,10 @@ string Task::get_name() const{
     return _name;
 }
 
+void* Task::get_parameters(){
+    return _parameters;
+}
+
 uint8_t Task::get_priority() const{
     return _priority;
 }
@@ -90,7 +94,7 @@ void Task::_callback_process(){
         // Check whether the thread has been set to run a callback
         if (_callback){
             // Call to the function directly
-            _callback();
+            _callback(this);
         }
         else {
             // Call to the default function to override

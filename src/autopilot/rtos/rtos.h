@@ -3,6 +3,9 @@
 
 #include "task.h"
 #include "scheduler.h"
+#include "queue.h"
+
+template class Queue<int>;
 
 class RTOS : public Task {
     public: 
