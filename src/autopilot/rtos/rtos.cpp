@@ -38,7 +38,7 @@ void tsip_process(Task* task){
     while (!packet_queue->empty()) {
         cout << packet_queue->pop() << endl;
     }
-    
+
 }
 
 void display_process(Task* task){
