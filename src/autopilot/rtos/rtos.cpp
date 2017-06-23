@@ -50,11 +50,18 @@ void DMARead200Hz(Task* task){
     Queue<TsipPacket*> *packet_queue = (Queue<TsipPacket*>*) task->get_parameters();
     
     // Create default variables
-    bool DLE_Started = false;
-    int32_t TSIP_index = 0;
     uint8_t read_byte, DMA_buffer[512];
-    TsipPacket *packet = nullptr;
 
+    // Check if last  TSIP message was interrupted
+    TsipPacket *packet = nullptr;
+    if (task->get_data()){
+        // Get the last incomplete TSIP messages from the task
+        packet = (TsipPacket*)task->get_data();
+    } else {
+        // Create a new one.
+        packet = new TsipPacket();
+    }
+    
     // Get next batch of bytes from DEM Serial Port.
     int32_t byte_count = uavnComRead(DMA_buffer, sizeof DMA_buffer);
 
@@ -63,36 +70,32 @@ void DMARead200Hz(Task* task){
         // Get the current byte
         read_byte = DMA_buffer[i];
         // Check if a TSIP packet has already started
-        if (DLE_Started) {
+        if (packet->active) {
             // Check if final of the current TSIP packets
             if (read_byte == ETX) {
-                // SEt the current TSIP packet size
-                packet->size = TSIP_index;
                // Add current packet to the quaue
                 packet_queue->push(packet);
-                // Start the next TSIP packet
-                TSIP_index = 0;
-                DLE_Started = false;
+                // Start new TSIP packet
+                packet = new TsipPacket();
             } else {
-                // Set the current byte in the buffer
-                packet->data[TSIP_index++] = read_byte;
+                // Set the current byte into the TSIP buffer
+                packet->data[packet->size++] = read_byte;
             }
         } else if (read_byte == DLE) {
-                // Create a new TSIP packet detected
-                packet = new TsipPacket();
-                DLE_Started = true;
-        } else {               
-            // Set the current byte in the buffer
-            //packet->data[TSIP_index++] = read_byte;
+                // New start TSIP packet detected
+                packet->active = true;
         }
         // End TSIP packet not detected (DLE ETX)
-        if (TSIP_index >= TSIP_SIZE) {
-            // Start another TSIP Packet
-            TSIP_index = 0;
+        if (packet->size >= TSIP_SIZE) {
+            // Reset current TSIP Packet from start (noise in data)
+            packet->size = 0;
+            packet->active = false;
         }
     }
-  
+    // Append current (uncompleted) TSIP data to the task
+    task->set_data(packet);
 }
+
 /* TaskUplink200Hz (MEDIUM-PRIORITY)
 
 Once the TSIP data is extracted from TSIP packet. The following task

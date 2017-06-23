@@ -67,6 +67,15 @@ void* Task::get_parameters(){
     return _parameters;
 }
 
+void* Task::get_data(){
+    return _data;
+}
+
+void Task::set_data(void* data){
+    _data = data;
+}
+
+
 uint8_t Task::get_priority() const{
     return _priority;
 }

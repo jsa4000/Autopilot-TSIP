@@ -9,11 +9,11 @@
 // TSIP Packet Size
 #define TSIP_SIZE 256
 
-// Define global data for handling _current_ packet.
-
+// Define TSIP data for packet management
 struct TsipPacket {
     uint8_t data[TSIP_SIZE];    
-    int32_t size;         
+    int32_t size = 0;    
+    bool active = false;     
 };
 
 /**

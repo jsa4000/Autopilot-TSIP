@@ -39,6 +39,9 @@ class Task {
 
         void*   get_parameters();
 
+        void*   get_data();
+        void    set_data(void* data);
+
         void    sleep(int milliseconds);
 
         auto    get_current_time();
@@ -55,6 +58,8 @@ class Task {
         function<void(Task*)> _callback = nullptr;
         // Parameters to send to the callback function
         void* _parameters = nullptr;
+        // Internat data the Task stores
+        void* _data = nullptr;
 
         // Default State (undefined)
         int _state = NO_STATE;
