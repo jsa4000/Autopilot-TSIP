@@ -174,7 +174,8 @@ void RTOS::shutdown(){
 
 void RTOS::_default_callback(){
     // Main Process for the OS
-    
+
+    // Do something if needed
 }
 
 
