@@ -56,7 +56,7 @@ void DMARead200Hz(Task* task){
     TsipPacket *packet = nullptr;
 
     // Get next batch of bytes from DEM Serial Port.
-    long byte_count = uavnComRead(DMA_buffer, sizeof DMA_buffer);
+    int32_t byte_count = uavnComRead(DMA_buffer, sizeof DMA_buffer);
 
     // Loop through buffer read from Serial Port
     for (int32_t i = 0; i < byte_count; i += 1) {
@@ -83,7 +83,7 @@ void DMARead200Hz(Task* task){
                 DLE_Started = true;
         } else {               
             // Set the current byte in the buffer
-            packet->data[TSIP_index++] = read_byte;
+            //packet->data[TSIP_index++] = read_byte;
         }
         // End TSIP packet not detected (DLE ETX)
         if (TSIP_index >= TSIP_SIZE) {
@@ -113,7 +113,7 @@ void TaskUplink200Hz(Task* task){
         // Delete current item since not a smart object
         delete packet;
         // Do somthing after parsing TSIP packet and perform action
-        task->sleep(200);
+        task->sleep(10);
     }
 }
 
