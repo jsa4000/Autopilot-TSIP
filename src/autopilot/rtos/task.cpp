@@ -93,7 +93,7 @@ void Task::_callback_process(){
     // Start the thread loop for the current task
     while (_running) {
         // Check if the task must be launched
-        if (_state != RUNNING_STATE && !_stateless) {
+        if (_state != RUN_STATE && !_stateless) {
             //Wait until run state is on
             sleep(10);
             continue;
@@ -116,7 +116,7 @@ void Task::_callback_process(){
               (end_time - start_time).count();
         // Check if the Task need sleep some time before the next iteration
         if (timediff < _timer)
-            _state = WAITING_STATE;
+            _state = WAIT_STATE;
             sleep(_timer - timediff);
         // Set the current Task as READY_STATE
         _state = READY_STATE;

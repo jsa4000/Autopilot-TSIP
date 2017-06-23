@@ -10,8 +10,8 @@
 
 // Define different States for the Tasks
 #define READY_STATE      0x01
-#define WAITING_STATE    0x02
-#define RUNNING_STATE    0x04
+#define WAIT_STATE    0x02
+#define RUN_STATE    0x04
 #define NO_STATE         0x08
 
 // Define the function type for the callback

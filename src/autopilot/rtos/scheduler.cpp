@@ -74,7 +74,7 @@ shared_ptr<Task> Scheduler::_find_next(){
 
 void Scheduler::_default_callback(){
     //Main Process for the Scheduler
-    if (_current && _current->get_state()==RUNNING_STATE)
+    if (_current && _current->get_state()==RUN_STATE)
          return;
 
     //Get the next task to process
@@ -86,7 +86,7 @@ void Scheduler::_default_callback(){
             _current->start();
         } 
         // Change it's current State to RUNNING
-        _current->set_state(RUNNING_STATE);
+        _current->set_state(RUN_STATE);
     }
 }
 
