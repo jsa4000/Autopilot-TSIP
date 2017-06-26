@@ -37,7 +37,7 @@ ar rvs %lib_rtos_file% %output_queue_file% %output_rtos_file% %output_scheduler_
 
 echo "COMPILING MAIN PROGRAM..."
 
-set output_file="bin/tsip.exe"
+set output_file="bin/autopilot.exe"
 set cpp_files="src/autopilot/main.cpp"
 
 g++ -g -std=%c_version% -pthread -I%include_path% -o%output_file% %cpp_files% %lib_rtos_file% %lib_devices_file%

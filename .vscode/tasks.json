@@ -1,6 +1,6 @@
 {
     "version": "0.1.0",
-    "command": "make.bat",
+    "command": "make_tsip.bat",
     "isShellCommand": true,
     "showOutput": "always"
 }
