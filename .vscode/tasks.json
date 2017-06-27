@@ -1,6 +1,6 @@
 {
     "version": "0.1.0",
-    "command": "make_tsip.bat",
+    "command": "make_autopilot.bat",
     "isShellCommand": true,
     "showOutput": "always"
 }

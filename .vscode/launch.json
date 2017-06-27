@@ -6,6 +6,20 @@
             "name":"Autopilot Client",
             "type": "cppdbg",
             "request": "launch",
+            "program": "${workspaceRoot}/bin/autopilot.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "gdb.exe"
+        },
+        
+        {
+            "name":"TSIP Client",
+            "type": "cppdbg",
+            "request": "launch",
             "program": "${workspaceRoot}/bin/tsip.exe",
             "args": [],
             "stopAtEntry": false,
